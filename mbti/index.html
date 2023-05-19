@@ -34,21 +34,12 @@
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = "857611014";
+    var serviceWorkerVersion = "1375548976";
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
-
-  <script>
-    function resizeToRatio() {
-      var width = window.innerWidth;
-      var height = width * 16 / 9;
-      parent.resizeTo(600, 900);
-    }
-  </script>
 </head>
-
-<body onresize="resizeToRatio()" onload="resizeToRatio()">
+<body>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
