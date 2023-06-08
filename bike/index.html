@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bike Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bike Information</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Station</th>
+                <th>Bike</th>
+            </tr>
+        </thead>
+        <tbody id="bikeTableBody">
+            <!-- Bike information will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <script>
+        fetch('http://openapi.seoul.go.kr:8088/7366684c7a6a687734325670794252/json/bikeList/1479/1481')
+            .then(response => response.json())
+            .then(data => {
+                const bikeStations = data.rentBikeStatus.row;
+                const tableBody = document.getElementById('bikeTableBody');
+
+                bikeStations.forEach(station => {
+                    if (station.stationName.includes("2252.")) {
+                        station.stationName = "회사";
+                    } else if (station.stationName.includes("2255.")) {
+                        station.stationName = "양시숲";
+                    } else if (station.stationName.includes("2256.")) {
+                        station.stationName = "헬스장";
+                    } else {
+                        return;
+                    }
+
+                    const stationName = station.stationName;
+                    const parkingBikeCount = station.parkingBikeTotCnt;
+
+                    const row = document.createElement('tr');
+                    const stationNameCell = document.createElement('td');
+                    stationNameCell.textContent = stationName;
+                    const parkingBikeCountCell = document.createElement('td');
+                    parkingBikeCountCell.textContent = parkingBikeCount;
+
+                    row.appendChild(stationNameCell);
+                    row.appendChild(parkingBikeCountCell);
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+</body>
+
+</html>
